@@ -7,7 +7,9 @@
 module.exports = function(app) {
     app.use('/auth', require('./auth'));
     app.use('/api/users', require('./api/user'));
+    app.use('/api/calendars', require('./api/calendar'));
     app.use('/api/things', require('./api/thing'));
+    app.use('/api/questions', require('./api/question'));
 
     app.route('/:url(api|auth)/*')
         .get(function (req, res) {
