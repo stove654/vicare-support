@@ -64,6 +64,7 @@ exports.update = function (req, res) {
 		if (!Calendar) {
 			return res.send(404);
 		}
+		Calendar.professional = null;
 		var updated = _.merge(Calendar, req.body);
 		updated.save(function (err) {
 			if (err) {

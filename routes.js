@@ -10,6 +10,7 @@ module.exports = function(app) {
     app.use('/api/calendars', require('./api/calendar'));
     app.use('/api/things', require('./api/thing'));
     app.use('/api/questions', require('./api/question'));
+    app.use('/api/professionals', require('./api/professional'));
 
     app.route('/:url(api|auth)/*')
         .get(function (req, res) {

@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 var CalendarSchema = new Schema({
   date: Date,
   time: String,
-  professional: {}
+  professional: Array
 }, {
   timestamp: Date
 });
