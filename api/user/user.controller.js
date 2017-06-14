@@ -14,10 +14,22 @@ var validationError = function (res, err) {
  * restriction: 'admin'
  */
 exports.index = function (req, res) {
-    User.find({}, '-salt -hashedPassword', function (err, users) {
-        if (err) return res.send(500, err);
-        res.json(200, users);
-    });
+	// Download the Node helper library from twilio.com/docs/node/install
+// These vars are your accountSid and authToken from twilio.com/user/account
+	var accountSid = 'AC81153fd1c273e81456da3a41cdf8749a';
+	var authToken = "3c27528a9e96fe00a470c9fcea636d12";
+	var client = require('twilio')(accountSid, authToken);
+
+	client.tokens.create({}, function(err, token) {
+	    console.log(token.iceServers);
+		process.stdout.write(token.username);
+		res.json(200, token.iceServers);
+	});
+
+    // User.find({}, '-salt -hashedPassword', function (err, users) {
+    //     if (err) return res.send(500, err);
+    //     res.json(200, users);
+    // });
 };
 
 /**
