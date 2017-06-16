@@ -15,15 +15,21 @@ var Chanel = require('./chanel.model');
 // Get list of Chanels
 exports.index = function (req, res) {
 	var time = new Date();
-	Chanel.find({
+	var query = {
 		open: {
 			$lte: time
 		},
 		end: {
 			$gte: time
-		},
-		from: req.query.from
-	}, function (err, Chanels) {
+		}
+	};
+
+	if (req.query.type == 'professional') {
+		query.to = req.query.from
+	} else {
+		query.from = req.query.from
+	}
+	Chanel.find(query, function (err, Chanels) {
 		if (err) {
 			return handleError(res, err);
 		}
