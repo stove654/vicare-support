@@ -12,6 +12,8 @@ module.exports = function(app) {
     app.use('/api/questions', require('./api/question'));
     app.use('/api/professionals', require('./api/professional'));
     app.use('/api/orders', require('./api/order'));
+    app.use('/api/chanels', require('./api/chanel'));
+    app.use('/api/messages', require('./api/message'));
 
     app.route('/:url(api|auth)/*')
         .get(function (req, res) {

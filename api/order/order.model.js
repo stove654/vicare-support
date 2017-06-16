@@ -7,8 +7,14 @@ var OrderSchema = new Schema({
 	user: Object,
 	time: String,
 	speciality: String,
-	professional: String,
-	timeSet: String
+	professional: Object,
+	timeSet: String,
+	open: Date,
+	end: Date,
+	status: {
+		type: Number,
+		default: 1
+	}
 }, {
 	timestamps: true
 });
