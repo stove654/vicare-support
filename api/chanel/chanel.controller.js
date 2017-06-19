@@ -44,17 +44,21 @@ exports.show = function (req, res) {
 		if (!Chanel) {
 			return res.send(404);
 		}
-		if (Date.parse(Chanel.open) < time && time < Date.parse(Chanel.end)) {
-			return res.json({
-				error: false,
-				data: Chanel
-			});
-		} else {
-			return  res.json({
-				error: true,
-				data: 'Hiện tại chưa đến giờ tư vấn với bác sĩ, xin vui lòng kiềm tra lại thời gian'
-			})
-		}
+		return res.json({
+			error: false,
+			data: Chanel
+		});
+		// if (Date.parse(Chanel.open) < time && time < Date.parse(Chanel.end)) {
+		// 	return res.json({
+		// 		error: false,
+		// 		data: Chanel
+		// 	});
+		// } else {
+		// 	return  res.json({
+		// 		error: true,
+		// 		data: 'Hiện tại chưa đến giờ tư vấn với bác sĩ, xin vui lòng kiềm tra lại thời gian'
+		// 	})
+		// }
 	});
 };
 
