@@ -16,9 +16,6 @@ var Chanel = require('./chanel.model');
 exports.index = function (req, res) {
 	var time = new Date();
 	var query = {
-		open: {
-			$lte: time
-		},
 		end: {
 			$gte: time
 		}
@@ -39,6 +36,7 @@ exports.index = function (req, res) {
 
 // Get a single Chanel
 exports.show = function (req, res) {
+	var time = Date.parse(new Date());
 	Chanel.findById(req.params.id, function (err, Chanel) {
 		if (err) {
 			return handleError(res, err);
@@ -46,7 +44,17 @@ exports.show = function (req, res) {
 		if (!Chanel) {
 			return res.send(404);
 		}
-		return res.json(Chanel);
+		if (Date.parse(Chanel.open) < time && time < Date.parse(Chanel.end)) {
+			return res.json({
+				error: false,
+				data: Chanel
+			});
+		} else {
+			return  res.json({
+				error: true,
+				data: 'Hiện tại chưa đến giờ tư vấn với bác sĩ, xin vui lòng kiềm tra lại thời gian'
+			})
+		}
 	});
 };
 

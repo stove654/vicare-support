@@ -75,6 +75,7 @@ exports.update = function (req, res) {
 						Chanel.create(params)
 					} else {
 						Chanel.findById(chanel._id, function (err, chanel1) {
+							console.log(params)
 							var updatedChanel = _.merge(chanel1, params);
 							updatedChanel.save();
 						})

@@ -8,7 +8,8 @@ var MessageSchema = new Schema({
 	text: String,
     image: String,
 	from: Number,
-	chanel: {type: Schema.Types.ObjectId, ref: 'Chanel'}
+	chanel: {type: Schema.Types.ObjectId, ref: 'Chanel'},
+	lastMessage: String
 }, {
 	timestamps: true
 });
