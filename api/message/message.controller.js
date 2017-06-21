@@ -13,7 +13,7 @@ var _ = require('lodash');
 var Message = require('./message.model');
 var Chanel = require('../chanel/chanel.model');
 var gcm = require('node-gcm');
-var sender = new gcm.Sender('AIzaSyCUEu-Dfji5aFnJNy-bvKaaPfGcIzV3BlQ');
+var sender = new gcm.Sender('AIzaSyAgGn78cOQGWENJ1VY-Xn4QGCxxDa8zaCM');
 
 // Get list of Messages
 exports.index = function (req, res) {
