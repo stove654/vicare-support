@@ -35,12 +35,18 @@ exports.index = function (req, res) {
 };
 
 // Get list of Chanels
-exports.indexuser = function (req, res) {;
-    Chanel.find(req.query, function (err, Chanels) {
+exports.indexuser = function (req, res) {
+    Chanel.findOne(req.query, function (err, chanel) {
         if (err) {
             return handleError(res, err);
         }
-        return res.json(200, Chanels);
+        if (chanel) return res.json(200, chanel);
+        Chanel.create(req.query, function (err, Chanel) {
+            if (err) {
+                return handleError(res, err);
+            }
+            return res.json(201, Chanel);
+        });
     });
 };
 
