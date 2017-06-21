@@ -52,6 +52,9 @@ exports.create = function (req, res) {
 			} else {
 				params.lastMessage = 'Gửi ảnh'
 			}
+			if (req.body.isUser) {
+				Chanel.read++;
+			}
 			var updatedChanel = _.merge(chanel, params);
 			updatedChanel.save();
 		})

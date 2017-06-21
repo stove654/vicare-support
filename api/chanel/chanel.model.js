@@ -10,7 +10,11 @@ var ChanelSchema = new Schema({
 	open: Date,
 	end: Date,
 	fromProfile: {},
-	toProfile: {}
+	toProfile: {},
+	read: {
+		type: Number,
+		default: 0
+	}
 }, {
 	timestamps: true
 });

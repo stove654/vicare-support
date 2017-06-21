@@ -47,7 +47,6 @@ exports.indexuser = function (req, res) {
 
 // Get a single Chanel
 exports.show = function (req, res) {
-	var time = Date.parse(new Date());
 	Chanel.findById(req.params.id, function (err, Chanel) {
 		if (err) {
 			return handleError(res, err);
