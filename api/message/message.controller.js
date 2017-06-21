@@ -53,7 +53,7 @@ exports.create = function (req, res) {
 				params.lastMessage = 'Gửi ảnh'
 			}
 			if (req.body.isUser) {
-				Chanel.read++;
+				params.read = chanel.read++
 			}
 			var updatedChanel = _.merge(chanel, params);
 			updatedChanel.save();
