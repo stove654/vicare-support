@@ -58,19 +58,23 @@ exports.create = function (req, res) {
                     body: 'Body of your push notification'
                 }
             };
+            var tokens;
             if (req.body.isUser) {
-            	var tokens = JSON.parse(chanel.fromProfile).devices
-				_.forEach(tokens, function (value) {
-					message.to = value.registration_id;
-                    fcm.send(message, function(err, response){
-                        if (err) {
-                            console.log("Something has gone wrong!");
-                        } else {
-                            console.log("Successfully sent with response: ", response);
-                        }
-                    });
-                })
-			}
+            	tokens = JSON.parse(chanel.fromProfile).devices
+			} else {
+                tokens = JSON.parse(chanel.toProfile).devices
+            }
+            _.forEach(tokens, function (value) {
+                message.to = value.registration_id;
+                fcm.send(message, function(err, response){
+                    if (err) {
+                        console.log("Something has gone wrong!");
+                    } else {
+                        console.log("Successfully sent with response: ", response);
+                    }
+                });
+            });
+            
 			var params = {};
 			if (Message.text) {
 				params.lastMessage = Message.text;
