@@ -15,12 +15,15 @@ var Chanel = require('../chanel/chanel.model');
 
 // Get list of Messages
 exports.index = function (req, res) {
-	Message.find(function (err, Messages) {
-		if (err) {
-			return handleError(res, err);
-		}
-		return res.json(200, Messages);
-	});
+	Message
+		.find(req.query)
+		.limit(100)
+        .exec(function(err, messages) {
+            if (err) {
+                return handleError(res, err);
+            }
+            return res.json(200, messages);
+        });
 };
 
 // Get a single Message
