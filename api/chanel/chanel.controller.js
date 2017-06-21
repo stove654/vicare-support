@@ -40,7 +40,7 @@ exports.indexuser = function (req, res) {
         if (err) {
             return handleError(res, err);
         }
-        if (chanel) return res.json(200, chanel);
+        if (chanel) return res.json(201, chanel);
         Chanel.create(req.query, function (err, Chanel) {
             if (err) {
                 return handleError(res, err);
