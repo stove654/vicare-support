@@ -13,7 +13,7 @@ var _ = require('lodash');
 var Message = require('./message.model');
 var Chanel = require('../chanel/chanel.model');
 var FCM = require('fcm-push');
-var serverKey = 'AIzaSyCUEu-Dfji5aFnJNy-bvKaaPfGcIzV3BlQ';
+var serverKey = 'AAAAEl5NM_U:APA91bHokSot42JOGjRQ69CR-HUfewVmZuEZctwBwmHDYUsfhcG6Q9mRlWNEIxXYBBye21XVHuZUsAzS62x452ASXw9tDiYKhMYF8BuKK7oEnzmoBslXrouz4yU4VeZNpOzwoNkaPneO';
 var fcm = new FCM(serverKey);
 
 // Get list of Messages
