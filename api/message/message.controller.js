@@ -61,7 +61,7 @@ exports.create = function (req, res) {
                 token = JSON.parse(chanel.toProfile).devices
             }
             var tokens = [];
-            _.forEach(tokens, function (value) {
+            _.forEach(token, function (value) {
             	tokens.push(value.registration_id);
             });
             if (tokens.length) {
