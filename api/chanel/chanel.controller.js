@@ -14,7 +14,7 @@ var Chanel = require('./chanel.model');
 
 // Get list of Chanels
 exports.index = function (req, res) {
-    Chanel.find(req.query)
+    Chanel.find({ lastMessage: { $ne: null }, to: req.query.to })
         .sort({'updatedAt': 'desc'})
         .exec(function (err, chanels) {
             if (err) {
