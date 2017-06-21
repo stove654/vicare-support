@@ -8,7 +8,9 @@ var ChanelSchema = new Schema({
 	to: Number,
 	lastMessage: String,
 	open: Date,
-	end: Date
+	end: Date,
+	fromProfile: {},
+	toProfile: {}
 }, {
 	timestamps: true
 });

@@ -27,7 +27,11 @@ exports.index = function (req, res) {
 
 // Get list of Chanels
 exports.indexuser = function (req, res) {
-    Chanel.findOne(req.query, function (err, chanel) {
+	var query = {
+		from: req.query.from,
+		to: req.query.to
+	};
+    Chanel.findOne(query, function (err, chanel) {
         if (err) {
             return handleError(res, err);
         }
