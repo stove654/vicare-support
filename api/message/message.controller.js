@@ -54,6 +54,7 @@ exports.create = function (req, res) {
 			}
 			if (req.body.isUser) {
 				params.read = chanel.read++
+				console.log(params.read)
 			}
 			var updatedChanel = _.merge(chanel, params);
 			updatedChanel.save();
