@@ -34,6 +34,16 @@ exports.index = function (req, res) {
 	});
 };
 
+// Get list of Chanels
+exports.indexuser = function (req, res) {;
+    Chanel.find(req.query, function (err, Chanels) {
+        if (err) {
+            return handleError(res, err);
+        }
+        return res.json(200, Chanels);
+    });
+};
+
 // Get a single Chanel
 exports.show = function (req, res) {
 	var time = Date.parse(new Date());

@@ -2,11 +2,11 @@
 
 var express = require('express');
 var controller = require('./chanel.controller');
-var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
 router.get('/', controller.index);
+router.get('/user/', controller.indexuser);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
