@@ -24,6 +24,7 @@
     "express": "^4.15.3",
     "express-jwt": "^5.3.0",
     "express-session": "^1.15.3",
+    "fcm-push": "^1.1.2",
     "jsonwebtoken": "^7.4.1",
     "lodash": "^4.17.4",
     "mongoose": "4.5.0",

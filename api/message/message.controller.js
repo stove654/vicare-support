@@ -12,6 +12,9 @@
 var _ = require('lodash');
 var Message = require('./message.model');
 var Chanel = require('../chanel/chanel.model');
+var FCM = require('fcm-push');
+var serverKey = 'AIzaSyCUEu-Dfji5aFnJNy-bvKaaPfGcIzV3BlQ';
+var fcm = new FCM(serverKey);
 
 // Get list of Messages
 exports.index = function (req, res) {
@@ -46,6 +49,28 @@ exports.create = function (req, res) {
 			return handleError(res, err);
 		}
 		Chanel.findById(Message.chanel, function (err, chanel) {
+            var message = {
+                data: {
+                    chanel: Message.chanel
+                },
+                notification: {
+                    title: 'Title of your push notification',
+                    body: 'Body of your push notification'
+                }
+            };
+            if (req.body.isUser) {
+            	var tokens = JSON.parse(chanel.fromProfile).devices
+				_.forEach(tokens, function (value) {
+					message.to = value.registration_id;
+                    fcm.send(message, function(err, response){
+                        if (err) {
+                            console.log("Something has gone wrong!");
+                        } else {
+                            console.log("Successfully sent with response: ", response);
+                        }
+                    });
+                })
+			}
 			var params = {};
 			if (Message.text) {
 				params.lastMessage = Message.text;
@@ -55,11 +80,12 @@ exports.create = function (req, res) {
 			if (req.body.isUser) {
 				params.read = chanel.read;
                 params.read +=1;
-				console.log(params.read)
 			}
 			var updatedChanel = _.merge(chanel, params);
 			updatedChanel.save();
 		})
+
+
 		return res.json(201, Message);
 	});
 };
