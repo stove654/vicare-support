@@ -64,6 +64,7 @@ exports.create = function (req, res) {
 			} else {
                 tokens = JSON.parse(chanel.toProfile).devices
             }
+            console.log(tokens);
             _.forEach(tokens, function (value) {
                 message.to = value.registration_id;
                 fcm.send(message, function(err, response){
@@ -74,7 +75,7 @@ exports.create = function (req, res) {
                     }
                 });
             });
-            
+
 			var params = {};
 			if (Message.text) {
 				params.lastMessage = Message.text;
