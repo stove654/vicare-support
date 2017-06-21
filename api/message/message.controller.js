@@ -50,9 +50,6 @@ exports.create = function (req, res) {
 		}
 		Chanel.findById(Message.chanel, function (err, chanel) {
             var message = {
-                data: {
-                    chanel: Message.chanel
-                },
                 notification: {
                     title: 'Title of your push notification',
                     body: 'Body of your push notification'
