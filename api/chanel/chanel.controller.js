@@ -14,24 +14,15 @@ var Chanel = require('./chanel.model');
 
 // Get list of Chanels
 exports.index = function (req, res) {
-	var time = new Date();
-	var query = {
-		end: {
-			$gte: time
-		}
-	};
+    Chanel.find(req.query)
+        .sort({'updatedAt': 'desc'})
+        .exec(function (err, Chats) {
+            if (err) {
+                return handleError(res, err);
+            }
+            return res.json(200, Chanels);
 
-	if (req.query.type == 'professional') {
-		query.to = req.query.from
-	} else {
-		query.from = req.query.from
-	}
-	Chanel.find(query, function (err, Chanels) {
-		if (err) {
-			return handleError(res, err);
-		}
-		return res.json(200, Chanels);
-	});
+        });
 };
 
 // Get list of Chanels
