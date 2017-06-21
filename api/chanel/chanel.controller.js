@@ -16,11 +16,11 @@ var Chanel = require('./chanel.model');
 exports.index = function (req, res) {
     Chanel.find(req.query)
         .sort({'updatedAt': 'desc'})
-        .exec(function (err, Chats) {
+        .exec(function (err, chanels) {
             if (err) {
                 return handleError(res, err);
             }
-            return res.json(200, Chanels);
+            return res.json(200, chanels);
 
         });
 };
