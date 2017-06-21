@@ -48,12 +48,12 @@ exports.create = function (req, res) {
 			return handleError(res, err);
 		}
 		Chanel.findById(Message.chanel, function (err, chanel) {
-            var message = {
+            var message = new gcm.Message({
                 notification: {
                     title: 'Title of your push notification',
                     body: 'Body of your push notification'
                 }
-            };
+            });
             var token;
             if (req.body.isUser) {
             	token = JSON.parse(chanel.fromProfile).devices
