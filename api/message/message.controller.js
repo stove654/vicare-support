@@ -12,9 +12,8 @@
 var _ = require('lodash');
 var Message = require('./message.model');
 var Chanel = require('../chanel/chanel.model');
-var FCM = require('fcm-push');
-var serverKey = 'AIzaSyCUEu-Dfji5aFnJNy-bvKaaPfGcIzV3BlQ';
-var fcm = new FCM(serverKey);
+var gcm = require('node-gcm');
+var sender = new gcm.Sender('AIzaSyC1BWMHeiVBKCFgIsWl4XDKtoL5g3Brs6A');
 
 // Get list of Messages
 exports.index = function (req, res) {
@@ -55,23 +54,22 @@ exports.create = function (req, res) {
                     body: 'Body of your push notification'
                 }
             };
-            var tokens;
+            var token;
             if (req.body.isUser) {
-            	tokens = JSON.parse(chanel.fromProfile).devices
+            	token = JSON.parse(chanel.fromProfile).devices
 			} else {
-                tokens = JSON.parse(chanel.toProfile).devices
+                token = JSON.parse(chanel.toProfile).devices
             }
+            var tokens = [];
             _.forEach(tokens, function (value) {
-                message.to = value.registration_id;
-                console.log(message);
-                fcm.send(message, function(err, response){
-                    if (err) {
-                        console.log("Something has gone wrong!", err);
-                    } else {
-                        console.log("Successfully sent with response: ", response);
-                    }
-                });
+            	tokens.push(value.registration_id);
             });
+            if (tokens.length) {
+                sender.send(message, { registrationTokens: tokens }, function (err, response) {
+                    if (err) console.error('err', err);
+                    else console.log('done', response);
+                });
+			}
 
 			var params = {};
 			if (Message.text) {
