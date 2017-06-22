@@ -9,8 +9,8 @@ var ChanelSchema = new Schema({
 	lastMessage: String,
 	open: Date,
 	end: Date,
-	fromProfile: {},
-	toProfile: {},
+	fromProfile: String,
+	toProfile: String,
 	read: {
 		type: Number,
 		default: 0
