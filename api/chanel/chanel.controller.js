@@ -45,26 +45,20 @@ exports.indexuser = function (req, res) {
             return handleError(res, err);
         }
         if (chanel) {
-        	if (chanel.fromProfile != req.body.fromProfile || chanel.toProfile != req.body.toProfile) {
-        		console.log('1111')
-                Chanel.findById(chanel._id, function (err, chanel) {
-                    chanel.fromProfile = null;
-                    chanel.toProfile = null;
-                    var updated = _.merge(chanel, {
-                        fromProfile: req.body.fromProfile,
-						toProfile: req.body.toProfile
-                    });
-                    updated.save(function (err) {
-                        if (err) {
-                            return handleError(res, err);
-                        }
-                        return res.json(200, chanel);
-                    });
+            Chanel.findById(chanel._id, function (err, data) {
+                data.fromProfile = null;
+                data.toProfile = null;
+                var updated = _.merge(data, {
+                    fromProfile: req.body.fromProfile,
+                    toProfile: req.body.toProfile
                 });
-			} else {
-        		console.log(2222)
-                return res.json(200, chanel);
-            }
+                updated.save(function (err) {
+                    if (err) {
+                        return handleError(res, err);
+                    }
+                    return res.json(200, data);
+                });
+            });
 
 		} else {
             console.log(3333)
