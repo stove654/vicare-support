@@ -37,19 +37,19 @@ exports.index = function (req, res) {
 // Get list of Chanels
 exports.indexuser = function (req, res) {
 	var query = {
-		from: req.query.from,
-		to: req.query.to
+		from: req.body.from,
+		to: req.body.to
 	};
     Chanel.findOne(query, function (err, chanel) {
         if (err) {
             return handleError(res, err);
         }
         if (chanel) {
-        	if (chanel.fromProfile != req.query.fromProfile) {
+        	if (chanel.fromProfile != req.body.fromProfile) {
                 Chanel.findById(chanel._id, function (err, chanel) {
                     chanel.fromProfile = null;
                     var updated = _.merge(chanel, {
-                        fromProfile: req.query.fromProfile
+                        fromProfile: req.body.fromProfile
                     });
                     updated.save(function (err) {
                         if (err) {
@@ -63,7 +63,7 @@ exports.indexuser = function (req, res) {
             }
 
 		}
-        Chanel.create(req.query, function (err, Chanel) {
+        Chanel.create(req.body, function (err, Chanel) {
             if (err) {
                 return handleError(res, err);
             }
