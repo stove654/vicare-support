@@ -66,14 +66,16 @@ exports.indexuser = function (req, res) {
                 return res.json(200, chanel);
             }
 
+		} else {
+            console.log(3333)
+            Chanel.create(req.body, function (err, Chanel) {
+                if (err) {
+                    return handleError(res, err);
+                }
+                return res.json(201, Chanel);
+            });
 		}
-		console.log(3333)
-        Chanel.create(req.body, function (err, Chanel) {
-            if (err) {
-                return handleError(res, err);
-            }
-            return res.json(201, Chanel);
-        });
+
     });
 };
 
