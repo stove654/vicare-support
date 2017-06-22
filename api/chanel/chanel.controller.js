@@ -45,11 +45,14 @@ exports.indexuser = function (req, res) {
             return handleError(res, err);
         }
         if (chanel) {
-        	if (chanel.fromProfile != req.body.fromProfile) {
+        	if (chanel.fromProfile != req.body.fromProfile || chanel.toProfile != req.body.toProfile) {
+        		console.log('1111')
                 Chanel.findById(chanel._id, function (err, chanel) {
                     chanel.fromProfile = null;
+                    chanel.toProfile = null;
                     var updated = _.merge(chanel, {
-                        fromProfile: req.body.fromProfile
+                        fromProfile: req.body.fromProfile,
+						toProfile: req.body.toProfile
                     });
                     updated.save(function (err) {
                         if (err) {
@@ -59,10 +62,12 @@ exports.indexuser = function (req, res) {
                     });
                 });
 			} else {
+        		console.log(2222)
                 return res.json(200, chanel);
             }
 
 		}
+		console.log(3333)
         Chanel.create(req.body, function (err, Chanel) {
             if (err) {
                 return handleError(res, err);
