@@ -10,59 +10,15 @@
 'use strict';
 
 var _ = require('lodash');
-var Professional = require('./professional.model');
+var request = require('request');
+
 
 // Get list of Professionals
 exports.index = function(req, res) {
-  Professional.find(function (err, Professionals) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, Professionals);
-  });
-};
-
-// Get a single Professional
-exports.show = function(req, res) {
-  Professional.findById(req.params.id, function (err, Professional) {
-    if(err) { return handleError(res, err); }
-    if(!Professional) { return res.send(404); }
-    return res.json(Professional);
-  });
-};
-
-// Creates a new Professional in the DB.
-exports.create = function(req, res) {
-  Professional.create(req.body, function(err, Professional) {
-    if(err) { return handleError(res, err); }
-    return res.json(201, Professional);
-  });
-};
-
-// Updates an existing Professional in the DB.
-exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Professional.findById(req.params.id, function (err, Professional) {
-    if (err) { return handleError(res, err); }
-    if(!Professional) { return res.send(404); }
-    var updated = _.merge(Professional, req.body);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.json(200, Professional);
+    request('http://vicare.vn/api/v1/professional/?name=' + req.query.name, function (error, response) {
+        console.log('error:', error); // Print the error if one occurred
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        console.log('body:', response); // Print the HTML for the Google homepage.
+        return res.json(200, response);
     });
-  });
 };
-
-// Deletes a Professional from the DB.
-exports.destroy = function(req, res) {
-  Professional.findById(req.params.id, function (err, Professional) {
-    if(err) { return handleError(res, err); }
-    if(!Professional) { return res.send(404); }
-    Professional.remove(function(err) {
-      if(err) { return handleError(res, err); }
-      return res.send(204);
-    });
-  });
-};
-
-function handleError(res, err) {
-  return res.send(500, err);
-}
