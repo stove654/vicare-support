@@ -50,7 +50,9 @@ exports.create = function (req, res) {
 		Chanel.findById(Message.chanel, function (err, chanel) {
 
             var token;
-            var notification = {};
+            var notification = {
+                sound: 'default'
+			};
             if (req.body.isUser) {
             	token = JSON.parse(chanel.fromProfile).devices;
                 notification.title = JSON.parse(chanel.fromProfile).name;
@@ -70,7 +72,8 @@ exports.create = function (req, res) {
 
             var message = new gcm.Message({
                 notification: notification,
-                data: { chanel: Message.chanel }
+                data: { chanel: Message.chanel },
+                priority: 'high'
             });
             if (tokens.length) {
                 sender.send(message, { registrationTokens: tokens }, function (err, response) {
