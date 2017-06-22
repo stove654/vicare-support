@@ -44,7 +44,25 @@ exports.indexuser = function (req, res) {
         if (err) {
             return handleError(res, err);
         }
-        if (chanel) return res.json(201, chanel);
+        if (chanel) {
+        	if (chanel.fromProfile != req.query.fromProfile) {
+                Chanel.findById(chanel._id, function (err, chanel) {
+                    chanel.fromProfile = null;
+                    var updated = _.merge(chanel, {
+                        fromProfile: req.query.fromProfile
+                    });
+                    updated.save(function (err) {
+                        if (err) {
+                            return handleError(res, err);
+                        }
+                        return res.json(200, chanel);
+                    });
+                });
+			} else {
+                return res.json(200, chanel);
+            }
+
+		}
         Chanel.create(req.query, function (err, Chanel) {
             if (err) {
                 return handleError(res, err);
