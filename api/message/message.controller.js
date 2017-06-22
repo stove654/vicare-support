@@ -69,7 +69,8 @@ exports.create = function (req, res) {
             });
 
             var message = new gcm.Message({
-                notification: notification
+                notification: notification,
+                data: { chanel: Message.chanel }
             });
             if (tokens.length) {
                 sender.send(message, { registrationTokens: tokens }, function (err, response) {
