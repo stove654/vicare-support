@@ -48,21 +48,28 @@ exports.create = function (req, res) {
 			return handleError(res, err);
 		}
 		Chanel.findById(Message.chanel, function (err, chanel) {
-            var message = new gcm.Message({
-                notification: {
-                    title: 'Title of your push notification',
-                    body: 'Body of your push notification'
-                }
-            });
+
             var token;
+            var notification = {};
             if (req.body.isUser) {
-            	token = JSON.parse(chanel.fromProfile).devices
+            	token = JSON.parse(chanel.fromProfile).devices;
+                notification.title = JSON.parse(chanel.fromProfile).name;
 			} else {
-                token = JSON.parse(chanel.toProfile).devices
+                token = JSON.parse(chanel.toProfile).devices;
+                notification.title = JSON.parse(chanel.toProfile).name;
             }
+            if (req.body.text) {
+                notification.body = req.body.text;
+            } else {
+                notification.body = 'Đã gửi bạn 1 bức ảnh';
+			}
             var tokens = [];
             _.forEach(token, function (value) {
             	tokens.push(value.registration_id);
+            });
+
+            var message = new gcm.Message({
+                notification: notification
             });
             if (tokens.length) {
                 sender.send(message, { registrationTokens: tokens }, function (err, response) {
