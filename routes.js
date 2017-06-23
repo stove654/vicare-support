@@ -15,6 +15,7 @@ module.exports = function(app) {
     app.use('/api/chanels', require('./api/chanel'));
     app.use('/api/messages', require('./api/message'));
 	app.use('/api/uploads', require('./api/upload'));
+	app.use('/api/settings', require('./api/setting'));
 
     app.route('/:url(api|auth)/*')
         .get(function (req, res) {
