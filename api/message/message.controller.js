@@ -56,9 +56,11 @@ exports.create = function (req, res) {
             if (req.body.isUser) {
             	token = JSON.parse(chanel.fromProfile).devices;
                 notification.title = JSON.parse(chanel.fromProfile).name;
+                console.log(111)
 			} else {
                 token = JSON.parse(chanel.toProfile).devices;
                 notification.title = JSON.parse(chanel.toProfile).name;
+                console.log(222)
             }
             if (req.body.text) {
                 notification.body = req.body.text;
