@@ -76,6 +76,7 @@ exports.create = function (req, res) {
                 priority: 'high'
             });
             if (tokens.length) {
+            	console.log(tokens)
                 sender.send(message, { registrationTokens: tokens }, function (err, response) {
                     if (err) console.error('err', err);
                     else console.log('done', response);
