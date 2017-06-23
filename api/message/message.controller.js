@@ -53,7 +53,7 @@ exports.create = function (req, res) {
             var notification = {
                 sound: 'default'
 			};
-            if (req.body.isUser) {
+            if (req.body.isUser == true) {
             	token = JSON.parse(chanel.fromProfile).devices;
                 notification.title = JSON.parse(chanel.fromProfile).name;
                 console.log(111)
