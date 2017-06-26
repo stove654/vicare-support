@@ -8,7 +8,7 @@ var message = new gcm.Message({
     }
 });
 
-sender.send(message, { registrationTokens: ['dNQVf1sifyM:APA91bHN7-Y8qVejeFH6LthuCspW8OnLHgczcY5S4uiRYrqGA8mAjbOji94E1LoLoVW9hjz1mwbcLQQHg6VQCwFRerj1A5A3Yq_dFa3JFTrgN7RE7tCEY_HFq8sNfNUGcbETL5bb-_70'] }, function (err, response) {
+sender.send(message, { registrationTokens: ['eI0SFTOW5RA:APA91bHNCM4Tlk_LnkmkrMV2e_egQjfUhrW8SZhWp325pgKfTBOL9H4suylZtx1qMbYY5HeprbRW5Mr4SRRpICI3qtaDe-4v4Essvo-QXqNa30hqcVUX2lS1Qvh5j1LGAtIOYrodjR6m'] }, function (err, response) {
     if (err) console.error('err', err);
     else console.log('done', response);
 });
