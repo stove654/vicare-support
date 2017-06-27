@@ -24,7 +24,10 @@ exports.index = function (req, res) {
 // Updates an existing Setting in the DB.
 exports.update = function (req, res) {
 	jsonfile.readFile(file, function (err, obj) {
-		jsonfile.writeFile(file, req.body, function (err) {
+		obj.openChat = req.body.openChat;
+		obj.needUpdate = req.body.needUpdate;
+		obj.version = req.body.version;
+		jsonfile.writeFile(file, obj, function (err) {
 			console.error(err, obj)
 			return res.json(201, obj);
 		})
