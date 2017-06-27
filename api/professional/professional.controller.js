@@ -15,10 +15,7 @@ var request = require('request');
 
 // Get list of Professionals
 exports.index = function(req, res) {
-    request('http://vicare.vn/api/v1/professional/?name=' + req.query.name, function (error, response) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        console.log('body:', response); // Print the HTML for the Google homepage.
+    request({url: 'http://vicare.vn/api/v1/professional/', qs: req.query}, function (error, response) {
         return res.json(200, response);
     });
 };
