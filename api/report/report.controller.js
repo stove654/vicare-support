@@ -11,6 +11,7 @@
 
 var _ = require('lodash');
 var Chanel = require('../chanel/chanel.model');
+var Message = require('../message/message.model');
 
 // Get list of Chanels
 exports.index = function(req, res) {
@@ -22,11 +23,17 @@ exports.index = function(req, res) {
 
 // Get a single Chanel
 exports.show = function(req, res) {
-  Chanel.findById(req.params.id, function (err, Chanel) {
-    if(err) { return handleError(res, err); }
-    if(!Chanel) { return res.send(404); }
-    return res.json(Chanel);
-  });
+	Message
+		.find({
+            chanel: req.params.id
+        })
+		.limit(300)
+		.exec(function(err, messages) {
+			if (err) {
+				return handleError(res, err);
+			}
+			return res.json(200, messages);
+		});
 };
 
 // Creates a new Chanel in the DB.
