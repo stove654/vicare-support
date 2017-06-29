@@ -30,6 +30,12 @@ app.get('/', function(request, response) {
 	response.send('Hello World!');
 });
 
+app.post('/api/webrtcs', function (req, res, next) {
+	socketio.sockets.emit('webrtc:save', req.body);
+	res.json(201, req.body);
+	next();
+});
+
 server.listen(port, function () {
 	console.log('Stove server listening on port: ', port);
 });
