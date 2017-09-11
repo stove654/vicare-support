@@ -2,13 +2,14 @@
 
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
-	Chanel = require('../chanel/chanel.model');
+	Channel = require('../channel/channel.model'),
+	User = require('../user/user.model');
 
 var MessageSchema = new Schema({
 	text: String,
     image: String,
-	from: Number,
-	chanel: {type: Schema.Types.ObjectId, ref: 'Chanel'},
+    from: {type: Schema.Types.ObjectId, ref: 'User'},
+	channel: {type: Schema.Types.ObjectId, ref: 'Channel'},
 	lastMessage: String
 }, {
 	timestamps: true

@@ -11,7 +11,7 @@
 
 var _ = require('lodash');
 var Order = require('./order.model');
-var Chanel = require('../chanel/chanel.model');
+var Channel = require('../channel/channel.model');
 
 // Get list of Orders
 exports.index = function (req, res) {
@@ -64,20 +64,20 @@ exports.update = function (req, res) {
 				return handleError(res, err);
 			}
 			if (Order.status == 2) {
-				Chanel.findOne({from: Order.user.id, to: Order.professional.id}, function (err, chanel) {
+				Channel.findOne({from: Order.user.id, to: Order.professional.id}, function (err, Channel) {
 					var params = {
 						from: Order.user.id,
 						to: Order.professional.id,
 						open: Order.open,
 						end: Order.end
 					};
-              		if (!chanel) {
-						Chanel.create(params)
+              		if (!Channel) {
+						Channel.create(params)
 					} else {
-						Chanel.findById(chanel._id, function (err, chanel1) {
+						Channel.findById(Channel._id, function (err, Channel1) {
 							console.log(params)
-							var updatedChanel = _.merge(chanel1, params);
-							updatedChanel.save();
+							var updatedChannel = _.merge(Channel1, params);
+							updatedChannel.save();
 						})
 					}
 				})

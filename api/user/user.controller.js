@@ -32,22 +32,41 @@ exports.index = function (req, res) {
     // });
 };
 
+exports.indexChat = function (req, res) {
+    var now = new Date();
+    //console.log(now.setDate(now.getDate() - 7), now.setDate(now.getDate() + 1))
+    User.find({}, function (err, users) {
+        if (err) return res.send(500, err);
+        res.json(200, users);
+    });
+};
+
+
 /**
  * Creates a new user
  */
-exports.create = function (req, res, next) {
-    var newUser = new User(req.body);
-    newUser.provider = 'local';
-    newUser.role = 'user';
-    newUser.save(function (err, user) {
-        if (err) return validationError(res, err);
-        var token = jwt.sign({_id: user._id}, config.secret, {expiresInMinutes: 60 * 5});
-        res.json({
-            success: true,
-            message: 'Enjoy your token!',
-            token: token
-        });
-    });
+exports.create = function (req, res) {
+    User.findOne({viCareId: req.body.viCareId}, function (err, user) {
+        if (user) {
+            User.findById(user._id, function (err, user) {
+                user.viCare = null;
+                var updated = _.merge(user, req.body);
+                updated.save(function (err) {
+                    if (err) { return handleError(res, err); }
+                    return res.json(201, user);
+                });
+            })
+        } else {
+            var newUser = new User(req.body);
+            newUser.provider = 'local';
+            newUser.role = 'user';
+            newUser.save(function (err, user) {
+                if (err) return validationError(res, err);
+                res.json(201, user);
+            });
+        }
+    })
+
 };
 
 
@@ -94,6 +113,20 @@ exports.changePassword = function (req, res, next) {
         } else {
             res.send(403);
         }
+    });
+};
+
+// Updates an existing thing in the DB.
+exports.update = function(req, res) {
+    if(req.body._id) { delete req.body._id; }
+    User.findById(req.params.id, function (err, user) {
+        if (err) { return handleError(res, err); }
+        if(!user) { return res.send(404); }
+        var updated = _.merge(user, req.body);
+        updated.save(function (err) {
+            if (err) { return handleError(res, err); }
+            return res.json(200, user);
+        });
     });
 };
 

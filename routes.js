@@ -12,7 +12,7 @@ module.exports = function(app) {
     app.use('/api/questions', require('./api/question'));
     app.use('/api/professionals', require('./api/professional'));
     app.use('/api/orders', require('./api/order'));
-    app.use('/api/chanels', require('./api/chanel'));
+    app.use('/api/channels', require('./api/channel'));
     app.use('/api/messages', require('./api/message'));
 	app.use('/api/uploads', require('./api/upload'));
 	app.use('/api/settings', require('./api/setting'));

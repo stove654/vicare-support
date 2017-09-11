@@ -56,7 +56,10 @@ var UserSchema = new Schema({
     color: {
         type: String,
         default: getRandomColor()
-    }
+    },
+    viCare: {},
+    viCareId: Number,
+    viCareUserRole: String
 }, {
     timestamps: true
 });

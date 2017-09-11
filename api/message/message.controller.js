@@ -11,7 +11,7 @@
 
 var _ = require('lodash');
 var Message = require('./message.model');
-var Chanel = require('../chanel/chanel.model');
+var Channel = require('../channel/channel.model');
 var gcm = require('node-gcm');
 var sender = new gcm.Sender('AIzaSyAgGn78cOQGWENJ1VY-Xn4QGCxxDa8zaCM');
 
@@ -20,6 +20,7 @@ exports.index = function (req, res) {
 	Message
 		.find(req.query)
 		.limit(100)
+        .populate('from')
         .exec(function(err, messages) {
             if (err) {
                 return handleError(res, err);
@@ -47,54 +48,56 @@ exports.create = function (req, res) {
 		if (err) {
 			return handleError(res, err);
 		}
-		Chanel.findById(Message.chanel, function (err, chanel) {
 
-            var token;
-            var notification = {
-                sound: 'default'
-			};
-            if (!req.body.isUser) {
-            	token = JSON.parse(chanel.fromProfile).devices;
-                notification.title = JSON.parse(chanel.toProfile).name;
-			} else {
-                token = JSON.parse(chanel.toProfile).devices;
-                notification.title = JSON.parse(chanel.fromProfile).name;
-            }
-            if (req.body.text) {
-                notification.body = req.body.text;
-            } else {
-                notification.body = 'Đã gửi bạn 1 bức ảnh';
-			}
-            var tokens = [];
-            _.forEach(token, function (value) {
-            	tokens.push(value.registration_id);
-            });
+		Channel.findById(Message.channel, function (err, channel) {
 
-            var message = new gcm.Message({
-                notification: notification,
-                data: { chanel: Message.chanel },
-                priority: 'high'
-            });
-            if (tokens.length) {
-            	console.log(tokens)
-                sender.send(message, { registrationTokens: tokens }, function (err, response) {
-                    if (err) console.error('err', err);
-                    else console.log('done', response);
+                var users = JSON.parse(JSON.stringify(channel.users));
+                for (var i = 0; i < users.length; i++) {
+                    if (users[i].user == req.body.from) {
+                        users[i].read = 0;
+                    } else {
+                        users[i].read += 1;
+                    }
+                }
+
+                channel.users = null;
+                var token;
+                var notification = {
+                    sound: 'default'
+                };
+
+                if (req.body.text) {
+                    notification.body = req.body.text;
+                } else {
+                    notification.body = 'Đã gửi bạn 1 bức ảnh';
+                }
+                var message = new gcm.Message({
+                    notification: notification,
+                    data: { channel: Message.channel },
+                    priority: 'high'
                 });
-			}
+                if (req.body.tokens.length) {
+                    console.log(req.body.tokens)
+                    if (!channel.request) {
+                        sender.send(message, { registrationTokens: req.body.tokens }, function (err, response) {
+                            if (err) console.error('err', err);
+                            else console.log('done', response);
+                        });
+                    }
+                }
 
-			var params = {};
-			if (Message.text) {
-				params.lastMessage = Message.text;
-			} else {
-				params.lastMessage = 'Gửi ảnh'
-			}
-			if (req.body.isUser) {
-				params.read = chanel.read;
-                params.read +=1;
-			}
-			var updatedChanel = _.merge(chanel, params);
-			updatedChanel.save();
+                var params = {};
+                if (Message.text) {
+                    params.lastMessage = Message.text;
+                } else {
+                    params.lastMessage = 'Gửi ảnh'
+                }
+
+                params.lastMessageTime = new Date();
+                params.users = users;
+                var updatedChannel = _.merge(channel, params);
+                updatedChannel.save();
+
 		})
 
 

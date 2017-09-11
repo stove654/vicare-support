@@ -4,21 +4,21 @@
 
 'use strict';
 
-var chanel = require('./chanel.model');
+var channel = require('./channel.model');
 
 exports.register = function (socket) {
-	chanel.schema.post('save', function (doc) {
+	channel.schema.post('save', function (doc) {
 		onSave(socket, doc);
 	});
-	chanel.schema.post('remove', function (doc) {
+	channel.schema.post('remove', function (doc) {
 		onRemove(socket, doc);
 	});
 }
 
 function onSave(socket, doc, cb) {
-	socket.emit('chanel:save', doc);
+	socket.emit('channel:save', doc);
 }
 
 function onRemove(socket, doc, cb) {
-	socket.emit('chanel:remove', doc);
+	socket.emit('channel:remove', doc);
 }

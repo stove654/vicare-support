@@ -1,31 +1,31 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /Chanels              ->  index
- * POST    /Chanels              ->  create
- * GET     /Chanels/:id          ->  show
- * PUT     /Chanels/:id          ->  update
- * DELETE  /Chanels/:id          ->  destroy
+ * GET     /Channels              ->  index
+ * POST    /Channels              ->  create
+ * GET     /Channels/:id          ->  show
+ * PUT     /Channels/:id          ->  update
+ * DELETE  /Channels/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var Chanel = require('../chanel/chanel.model');
+var Channel = require('../channel/channel.model');
 var Message = require('../message/message.model');
 
-// Get list of Chanels
+// Get list of Channels
 exports.index = function(req, res) {
-  Chanel.find(function (err, Chanels) {
+  Channel.find(function (err, Channels) {
     if(err) { return handleError(res, err); }
-    return res.json(200, Chanels);
+    return res.json(200, Channels);
   });
 };
 
-// Get a single Chanel
+// Get a single Channel
 exports.show = function(req, res) {
 	Message
 		.find({
-            chanel: req.params.id
+            Channel: req.params.id
         })
 		.limit(300)
 		.exec(function(err, messages) {
@@ -36,34 +36,34 @@ exports.show = function(req, res) {
 		});
 };
 
-// Creates a new Chanel in the DB.
+// Creates a new Channel in the DB.
 exports.create = function(req, res) {
-  Chanel.create(req.body, function(err, Chanel) {
+  Channel.create(req.body, function(err, Channel) {
     if(err) { return handleError(res, err); }
-    return res.json(201, Chanel);
+    return res.json(201, Channel);
   });
 };
 
-// Updates an existing Chanel in the DB.
+// Updates an existing Channel in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
-  Chanel.findById(req.params.id, function (err, Chanel) {
+  Channel.findById(req.params.id, function (err, Channel) {
     if (err) { return handleError(res, err); }
-    if(!Chanel) { return res.send(404); }
-    var updated = _.merge(Chanel, req.body);
+    if(!Channel) { return res.send(404); }
+    var updated = _.merge(Channel, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.json(200, Chanel);
+      return res.json(200, Channel);
     });
   });
 };
 
-// Deletes a Chanel from the DB.
+// Deletes a Channel from the DB.
 exports.destroy = function(req, res) {
-  Chanel.findById(req.params.id, function (err, Chanel) {
+  Channel.findById(req.params.id, function (err, Channel) {
     if(err) { return handleError(res, err); }
-    if(!Chanel) { return res.send(404); }
-    Chanel.remove(function(err) {
+    if(!Channel) { return res.send(404); }
+    Channel.remove(function(err) {
       if(err) { return handleError(res, err); }
       return res.send(204);
     });
