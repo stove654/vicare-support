@@ -14,12 +14,16 @@ var Channel = require('../channel/channel.model');
 var Message = require('../message/message.model');
 
 // Get list of Channels
-exports.index = function(req, res) {
-  Channel.find(function (err, Channels) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, Channels);
-  });
+
+exports.index = function (req, res) {
+    Channel.find({'lastMessage': { $ne: null }, request: false})
+        .populate('users.user')
+        .exec(function (err, Channels) {
+            if(err) { return handleError(res, err); }
+            return res.json(200, Channels);
+        })
 };
+
 
 // Get a single Channel
 exports.show = function(req, res) {

@@ -66,11 +66,17 @@ exports.create = function (req, res) {
                     sound: 'default'
                 };
 
+				var text = '';
+				if (req.body.fromName) {
+					text += req.body.fromName;
+				}
+
                 if (req.body.text) {
-                    notification.body = req.body.text;
+                    notification.body = text + ': ' + req.body.text;
                 } else {
-                    notification.body = 'Đã gửi bạn 1 bức ảnh';
+                    notification.body = text + ': Đã gửi bạn 1 bức ảnh';
                 }
+
                 var message = new gcm.Message({
                     notification: notification,
                     data: { channel: Message.channel },
