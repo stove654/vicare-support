@@ -32,6 +32,7 @@ exports.show = function(req, res) {
             channel: req.params.id
         })
 		.limit(300)
+        .populate('from')
 		.exec(function(err, messages) {
 			if (err) {
 				return handleError(res, err);
