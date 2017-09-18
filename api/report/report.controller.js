@@ -29,7 +29,7 @@ exports.index = function (req, res) {
 exports.show = function(req, res) {
 	Message
 		.find({
-            Channel: req.params.id
+            channel: req.params.id
         })
 		.limit(300)
 		.exec(function(err, messages) {
