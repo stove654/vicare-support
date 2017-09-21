@@ -18,6 +18,7 @@ var Message = require('../message/message.model');
 exports.index = function (req, res) {
     Channel.find({'lastMessage': { $ne: null }, request: false})
         .populate('users.user')
+        .sort({updatedAt:-1})
         .exec(function (err, Channels) {
             if(err) { return handleError(res, err); }
             return res.json(200, Channels);
