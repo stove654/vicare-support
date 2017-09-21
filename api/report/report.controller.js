@@ -25,6 +25,16 @@ exports.index = function (req, res) {
         })
 };
 
+exports.indexAll = function (req, res) {
+    Channel.find({'lastMessage': { $ne: null }})
+        .populate('users.user')
+        .sort({updatedAt:-1})
+        .exec(function (err, Channels) {
+            if(err) { return handleError(res, err); }
+            return res.json(200, Channels);
+        })
+};
+
 
 // Get a single Channel
 exports.show = function(req, res) {
