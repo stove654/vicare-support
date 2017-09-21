@@ -16,7 +16,19 @@ var Message = require('../message/message.model');
 // Get list of Channels
 
 exports.index = function (req, res) {
-    Channel.find({'lastMessage': { $ne: null }, request: false})
+
+    var query = {'lastMessage': { $ne: null }};
+    query.updatedAt = {"$gte": req.query.from, "$lt": req.query.to};
+
+    if (req.query.filter == 2) {
+        query.request = false
+    }
+
+    if (req.query.filter == 3) {
+        query.request = true
+    }
+
+    Channel.find(query)
         .populate('users.user')
         .sort({updatedAt:-1})
         .exec(function (err, Channels) {
