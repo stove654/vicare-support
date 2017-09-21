@@ -26,7 +26,16 @@ exports.index = function (req, res) {
 };
 
 exports.indexAll = function (req, res) {
-    Channel.find({'lastMessage': { $ne: null }})
+    var query = {'lastMessage': { $ne: null }};
+    if (req.body.filter == 2) {
+        query.request = false
+    }
+
+    if (req.body.filter == 3) {
+        query.request = true
+    }
+
+    Channel.find(query)
         .populate('users.user')
         .sort({updatedAt:-1})
         .exec(function (err, Channels) {
