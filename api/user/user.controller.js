@@ -35,10 +35,17 @@ exports.index = function (req, res) {
 exports.indexChat = function (req, res) {
     var now = new Date();
     //console.log(now.setDate(now.getDate() - 7), now.setDate(now.getDate() + 1))
-    User.find({}, function (err, users) {
-        if (err) return res.send(500, err);
-        res.json(200, users);
-    });
+    // User.find({}, function (err, users) {
+    //     if (err) return res.send(500, err);
+    //     res.json(200, users);
+    // });
+
+    User.find()
+        .sort({updatedAt:-1})
+        .exec(function (err, users) {
+            if(err) { return handleError(res, err); }
+            return res.json(200, users);
+        })
 };
 
 
