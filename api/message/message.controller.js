@@ -44,12 +44,12 @@ exports.show = function (req, res) {
 
 // Creates a new Message in the DB.
 exports.create = function (req, res) {
-	Message.create(req.body, function (err, Message) {
+	Message.create(req.body, function (err, Message1) {
 		if (err) {
 			return handleError(res, err);
 		}
 
-		Channel.findById(Message.channel, function (err, channel) {
+		Channel.findById(Message1.channel, function (err, channel) {
 
                 var users = JSON.parse(JSON.stringify(channel.users));
                 for (var i = 0; i < users.length; i++) {
@@ -79,22 +79,40 @@ exports.create = function (req, res) {
 
                 var message = new gcm.Message({
                     notification: notification,
-                    data: { channel: Message.channel },
+                    data: { channel: Message1.channel },
                     priority: 'high'
                 });
                 if (req.body.tokens.length) {
-                    console.log(req.body.tokens)
                     if (!channel.request) {
                         sender.send(message, { registrationTokens: req.body.tokens }, function (err, response) {
                             if (err) console.error('err', err);
                             else console.log('done', response);
                         });
-                    }
+                    } else {
+                        Message.find({channel: Message1.channel}, function (err, data) {
+                            if (!err && data.length == 1) {
+                            	console.log('111');
+
+                                var notiMessage = new gcm.Message({
+                                    notification: {
+                                    	sound: 'default',
+										body: 'Bạn có một yêu cầu tư vấn đến từ người bệnh ViCare'
+									},
+                                    data: { request: true },
+                                    priority: 'high'
+                                });
+                                sender.send(notiMessage, { registrationTokens: req.body.tokens }, function (err, response) {
+                                    if (err) console.error('err', err);
+                                    else console.log('done', response);
+                                });
+							}
+                        });
+					}
                 }
 
                 var params = {};
-                if (Message.text) {
-                    params.lastMessage = Message.text;
+                if (Message1.text) {
+                    params.lastMessage = Message1.text;
                 } else {
                     params.lastMessage = 'Gửi ảnh'
                 }
@@ -107,7 +125,7 @@ exports.create = function (req, res) {
 		})
 
 
-		return res.json(201, Message);
+		return res.json(201, Message1);
 	});
 };
 
