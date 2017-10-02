@@ -59,7 +59,11 @@ var UserSchema = new Schema({
     },
     viCare: {},
     viCareId: Number,
-    viCareUserRole: String
+    viCareUserRole: String,
+    lastConnection: {
+        type: Date,
+        default: new Date()
+    }
 }, {
     timestamps: true
 });
